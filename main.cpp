@@ -4,6 +4,39 @@
 #include <random>
 #include <vector>
 
+class D {
+
+};
+
+class C : public D {
+protected:
+    virtual void a() const {
+        std::cout << "class D a()" << std::endl;
+    };
+};
+
+class B : public C
+{
+protected:
+    void a() const override {
+        std::cout << "class B a()" << std::endl;
+    };
+};
+
+class A : public B {
+
+protected:
+    void a() const override {
+        std::cout << "class A a()" << std::endl;
+    };
+public:
+    A() {
+        C::a();
+        B::a();
+        A::a();
+    };
+};
+
 
 int main(int, char **) {
     std::random_device rd; // 将用于为随机数引擎获得种子
@@ -24,4 +57,6 @@ int main(int, char **) {
 
     std::sort(v.begin(), v.end(), std::greater<>());
     std::cout << "最大两个数字：" << v.at(0) << " " << v.at(1);
+    std::cout << std::endl;
+    A a;
 }

@@ -1,13 +1,22 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(test-pro VERSION 0.1.0)
+project(MyProject)
 
-set(CMAKE_CXX_STANDARD 17)
+if (NOT DEFINED CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+endif ()
 
-include(CTest)
-enable_testing()
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(test-pro main.cpp)
+file(GLOB PROJECT_EXAMPLES "src/*.cpp")
+foreach (SRC ${PROJECT_EXAMPLES})
+    get_filename_component(EXAMPLE_TARGET ${SRC} NAME_WE)
+    add_executable(${EXAMPLE_TARGET} ${SRC})
+    target_include_directories(${EXAMPLE_TARGET} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+    target_link_libraries(${EXAMPLE_TARGET}
+            pthread
+            )
+endforeach (SRC)
+
+add_executable(main main.cpp)
+
