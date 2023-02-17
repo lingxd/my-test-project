@@ -1,5 +1,8 @@
 set(BUILD_SHARED_LIBS_TEMP "${BUILD_SHARED_LIBS}")
 set(BUILD_SHARED_LIBS YES)
-add_subdirectory(oneTBB)
+add_subdirectory(oneTBB EXCLUDE_FROM_ALL)
 set(BUILD_SHARED_LIBS "${BUILD_SHARED_LIBS_TEMP}")
 unset(BUILD_SHARED_LIBS_TEMP)
+
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Turn off the google test")
+add_subdirectory(benchmark)
